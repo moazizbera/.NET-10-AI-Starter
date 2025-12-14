@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36804.6 d17.14
+VisualStudioVersion = 17.14.36804.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet10Ai.Api", "DotNet10Ai.Api\DotNet10Ai.Api.csproj", "{C1593322-CC2A-D94B-7D16-77CF38E6E8FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet10Ai.Console", "DotNet10Ai.Console\DotNet10Ai.Console.csproj", "{7CD20A3E-5DD3-4091-B7A1-1558E081C216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C1593322-CC2A-D94B-7D16-77CF38E6E8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1593322-CC2A-D94B-7D16-77CF38E6E8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1593322-CC2A-D94B-7D16-77CF38E6E8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD20A3E-5DD3-4091-B7A1-1558E081C216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD20A3E-5DD3-4091-B7A1-1558E081C216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD20A3E-5DD3-4091-B7A1-1558E081C216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD20A3E-5DD3-4091-B7A1-1558E081C216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
