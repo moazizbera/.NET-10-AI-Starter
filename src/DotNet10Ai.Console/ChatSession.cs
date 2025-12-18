@@ -1,7 +1,7 @@
 ﻿using DotNet10Ai.ConsoleApp.Models;
 
 namespace DotNet10Ai.ConsoleApp;
-
+//Test
 public sealed class ChatSession
 {
     private readonly List<ChatMessage> _messages = new();
