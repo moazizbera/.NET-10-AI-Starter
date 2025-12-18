@@ -1,4 +1,3 @@
-# Zizo
 # .NET AI Starter
 
 A practical, step-by-step journey into building **AI-powered applications using modern .NET**.
