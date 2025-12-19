@@ -1,4 +1,8 @@
 ﻿namespace DotNet10Ai.Api.Models
 {
-    public sealed record ChatRequest(string Message);
+    public class ChatRequest
+    {
+        public string Message { get; set; } = "";
+    }
+
 }

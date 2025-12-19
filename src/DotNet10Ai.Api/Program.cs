@@ -1,57 +1,29 @@
-﻿using DotNet10Ai.ConsoleApp;
+﻿using DotNet10Ai.Api.Ai;
+using DotNet10Ai.Api.Ai.Ollama;
+using DotNet10Ai.Api.Options;
+using Microsoft.Extensions.Options;
 
-// 1️⃣ App banner
-Console.WriteLine("DotNet 10 AI Chat");
-Console.WriteLine("Local • Ollama • Phi-3");
-Console.WriteLine("Type /help for commands\n");
+var builder = WebApplication.CreateBuilder(args);
 
-// 2️⃣ CREATE SESSION (HERE)
-var session = new ChatSession();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-// 3️⃣ ADD SYSTEM PROMPT (HERE — ONCE)
-session.AddSystem(ChatSession.DefaultSystemPrompt);
+builder.Services.Configure<AiOptions>(
+    builder.Configuration.GetSection("Ai"));
 
-// 4️⃣ CREATE CLIENT
-var client = new OllamaChatClient("http://localhost:11434");
-
-// 5️⃣ CHAT LOOP
-while (true)
+builder.Services.AddHttpClient<OllamaInferenceService>((sp, client) =>
 {
-    Console.Write("You › ");
-    var input = Console.ReadLine();
+    var options = sp.GetRequiredService<IOptionsMonitor<AiOptions>>();
+    client.BaseAddress = new Uri(options.CurrentValue.Local.OllamaUrl);
+});
 
-    if (string.IsNullOrWhiteSpace(input))
-        continue;
 
-    if (input.Equals("/exit", StringComparison.OrdinalIgnoreCase))
-        break;
 
-    if (input.Equals("/clear", StringComparison.OrdinalIgnoreCase))
-    {
-        session.Clear(); // system prompt is re-added automatically
-        Console.WriteLine("Conversation cleared.\n");
-        continue;
-    }
+builder.Services.AddScoped<IAiInferenceService, OllamaInferenceService>();
 
-    if (input.Equals("/help", StringComparison.OrdinalIgnoreCase))
-    {
-        Console.WriteLine("""
-Commands:
-  /help   Show commands
-  /clear  Clear conversation
-  /exit   Exit chat
-""");
-        continue;
-    }
-
-    // 6️⃣ USER MESSAGE
-    session.AddUser(input);
-
-    // 7️⃣ AI RESPONSE
-    Console.Write("AI  › ");
-    var reply = await client.StreamChatAsync(session.Messages);
-    session.AddAssistant(reply);
-}
-
-// 8️⃣ EXIT
-Console.WriteLine("\nGoodbye 👋");
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapControllers();
+app.Run();

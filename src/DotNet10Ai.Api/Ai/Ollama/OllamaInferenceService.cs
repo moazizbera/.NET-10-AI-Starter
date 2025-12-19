@@ -33,7 +33,7 @@ public sealed class OllamaInferenceService : IAiInferenceService
             stream = true
         };
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, "/api/chat")
+        using var request = new HttpRequestMessage(HttpMethod.Post, local.OllamaUrl+"/api/chat")
         {
             Content = JsonContent.Create(payload)
         };
