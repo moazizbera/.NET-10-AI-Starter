@@ -133,10 +133,19 @@ Most real-world applications **use models rather than train them**.
 This project demonstrates that modern .NET is a **first-class option** for that role.
 
 ---
+## 📦 Episode 3 – ASP.NET AI Web API (Local LLM)
+
+This episode exposes our local AI model through a clean Web API built in ASP.NET (.NET 10 ready).
+
+### 🎯 Goal
+Turn the local console-based AI engine into a reusable HTTP endpoint.
+
+### 🧠 Endpoint
+
+---
 
 ## 📚 What’s Coming Next
-
-- Episode 3 – Non-streaming AI API with ASP.NET  
+ 
 - Episode 4 – Streaming AI endpoints (SSE)  
 - Episode 5 – RAG (chat with documents)  
 - Episode 6 – UI integration  
