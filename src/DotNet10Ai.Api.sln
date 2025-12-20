@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet10Ai.Api", "DotNet10Ai.Api\DotNet10Ai.Api.csproj", "{C1593322-CC2A-D94B-7D16-77CF38E6E8FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet10Ai.Console", "DotNet10Ai.Console\DotNet10Ai.Console.csproj", "{7CD20A3E-5DD3-4091-B7A1-1558E081C216}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C1593322-CC2A-D94B-7D16-77CF38E6E8FC} = {C1593322-CC2A-D94B-7D16-77CF38E6E8FC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

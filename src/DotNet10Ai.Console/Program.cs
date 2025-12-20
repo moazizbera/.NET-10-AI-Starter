@@ -1,75 +1,43 @@
 ﻿using DotNet10Ai.ConsoleApp;
+using DotNet10Ai.ConsoleApp.Memory;
 
-// ─────────────────────────────────────────────
-// App Banner
-// ─────────────────────────────────────────────
-ConsoleUi.PrintBanner();
-
-// ─────────────────────────────────────────────
-// Create chat session + system prompt
-// ─────────────────────────────────────────────
-var session = new ChatSession();
-session.AddSystem(ChatSession.DefaultSystemPrompt);
-
-// Optional: show system info once
-ConsoleUi.PrintSystem("AI configured as senior software architect");
-
-// ─────────────────────────────────────────────
-// Create Ollama client
-// ─────────────────────────────────────────────
+var memory = new ConversationMemory();
 var client = new OllamaChatClient("http://localhost:11434");
 
-// ─────────────────────────────────────────────
-// Main chat loop
-// ─────────────────────────────────────────────
+System.Console.WriteLine("DotNet AI Chat");
+System.Console.WriteLine("Local • Ollama • Phi-3");
+System.Console.WriteLine("Commands: /help, /reset, /exit");
+System.Console.WriteLine();
+
 while (true)
 {
-    ConsoleUi.PrintUserPrompt();
-    var input = Console.ReadLine();
+    System.Console.Write("You > ");
+    var input = System.Console.ReadLine();
 
     if (string.IsNullOrWhiteSpace(input))
         continue;
 
-    // Exit
     if (input.Equals("/exit", StringComparison.OrdinalIgnoreCase))
         break;
 
-    // Clear conversation
-    if (input.Equals("/clear", StringComparison.OrdinalIgnoreCase))
-    {
-        session.Clear();
-        ConsoleUi.PrintInfo("Conversation cleared.");
-        continue;
-    }
-
-    // Help
     if (input.Equals("/help", StringComparison.OrdinalIgnoreCase))
     {
-        ConsoleUi.PrintInfo("""
-Commands:
-  /help   Show commands
-  /clear  Clear conversation
-  /exit   Exit chat
-""");
+        System.Console.WriteLine("/help  - show commands");
+        System.Console.WriteLine("/reset - clear memory");
+        System.Console.WriteLine("/exit  - quit");
         continue;
     }
 
-    // Add user message
-    session.AddUser(input);
+    if (input.Equals("/reset", StringComparison.OrdinalIgnoreCase))
+    {
+        memory.Reset();
+        System.Console.WriteLine("🧹 Conversation cleared.");
+        continue;
+    }
 
-    // Stream AI response
-    ConsoleUi.PrintAiPrefix();
-    Console.CursorVisible = false;
+    memory.AddUser(input);
 
-    var reply = await client.StreamChatAsync(session.Messages);
+    var reply = await client.StreamChatAsync(memory.Messages);
 
-    Console.CursorVisible = true;
-    Console.WriteLine();
-
-    session.AddAssistant(reply);
+    memory.AddAssistant(reply);
 }
-
-// ─────────────────────────────────────────────
-// Exit
-// ─────────────────────────────────────────────
-Console.WriteLine("\nGoodbye 👋");

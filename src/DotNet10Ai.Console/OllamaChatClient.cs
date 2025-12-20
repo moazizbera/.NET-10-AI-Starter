@@ -61,12 +61,15 @@ public sealed class OllamaChatClient
             if (json.RootElement.TryGetProperty("message", out var msg))
             {
                 var chunk = msg.GetProperty("content").GetString();
-                sb.Append(chunk);
-                Console.Write(chunk);
+                if (!string.IsNullOrEmpty(chunk))
+                {
+                    sb.Append(chunk);
+                    System.Console.Write(chunk);
+                }
             }
         }
 
-        Console.WriteLine();
+        System.Console.WriteLine();
         return sb.ToString();
     }
 }

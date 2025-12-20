@@ -1,6 +1,5 @@
-﻿using System.Text;
-using System.Text.Json;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
+using DotNet10Ai.Api.Models;
 using DotNet10Ai.Api.Options;
 using Microsoft.Extensions.Options;
 
@@ -19,52 +18,51 @@ public sealed class OllamaInferenceService : IAiInferenceService
 
     public string ProviderName => "Local(Ollama)";
 
-    public async Task<string> ChatAsync(string message, CancellationToken ct)
+    public async Task<string> ChatAsync(IReadOnlyList<ChatMessage> messages, CancellationToken ct)
     {
         var local = _options.CurrentValue.Local;
 
         var payload = new
         {
             model = local.Model,
-            messages = new[]
+            messages = messages.Select(m => new
             {
-                new { role = "user", content = message }
-            },
-            stream = true
+                role = m.Role switch
+                {
+                    ChatRole.System => "system",
+                    ChatRole.User => "user",
+                    ChatRole.Assistant => "assistant",
+                    _ => "user"
+                },
+                content = m.Content
+            }).ToArray(),
+            stream = false
         };
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, local.OllamaUrl+"/api/chat")
+        using var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            local.OllamaUrl + "/api/chat")
         {
             Content = JsonContent.Create(payload)
         };
 
-        using var response = await _http.SendAsync(
-            request,
-            HttpCompletionOption.ResponseHeadersRead,
-            ct);
-
+        using var response = await _http.SendAsync(request, ct);
         response.EnsureSuccessStatusCode();
 
-        using var stream = await response.Content.ReadAsStreamAsync(ct);
-        using var reader = new StreamReader(stream);
+        var body = await response.Content.ReadFromJsonAsync<OllamaChatResponse>(
+            cancellationToken: ct);
 
-        var sb = new StringBuilder();
+        return body?.message?.content?.Trim() ?? string.Empty;
+    }
 
-        while (true)
-        {
-            var line = await reader.ReadLineAsync();
-            if (line == null) break;
-            if (string.IsNullOrWhiteSpace(line)) continue;
+    private sealed class OllamaChatResponse
+    {
+        public OllamaMessage? message { get; set; }
+    }
 
-            var json = JsonDocument.Parse(line);
-
-            if (json.RootElement.TryGetProperty("message", out var msg))
-            {
-                var content = msg.GetProperty("content").GetString();
-                sb.Append(content);
-            }
-        }
-
-        return sb.ToString();
+    private sealed class OllamaMessage
+    {
+        public string? role { get; set; }
+        public string? content { get; set; }
     }
 }

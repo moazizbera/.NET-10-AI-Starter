@@ -2,6 +2,7 @@
 using DotNet10Ai.Api.Ai.Ollama;
 using DotNet10Ai.Api.Options;
 using Microsoft.Extensions.Options;
+using DotNet10Ai.Api.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddHttpClient<OllamaInferenceService>((sp, client) =>
 });
 
 
-
+builder.Services.AddSingleton<IConversationMemoryStore, InMemoryConversationMemoryStore>();
 builder.Services.AddScoped<IAiInferenceService, OllamaInferenceService>();
 
 var app = builder.Build();

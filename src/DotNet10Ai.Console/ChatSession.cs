@@ -9,13 +9,28 @@ public sealed class ChatSession
     public IReadOnlyList<ChatMessage> Messages => _messages;
 
     public void AddSystem(string text)
-        => _messages.Add(new ChatMessage("system", text));
+        => _messages.Add(new ChatMessage
+        {
+            Role = "system",
+            Content = text
+        });
+
 
     public void AddUser(string text)
-        => _messages.Add(new ChatMessage("user", text));
+        => _messages.Add(new ChatMessage
+        {
+            Role = "user",
+            Content = text
+        });
+
 
     public void AddAssistant(string text)
-        => _messages.Add(new ChatMessage("assistant", text));
+        => _messages.Add(new ChatMessage
+        {
+            Role = "assistant",
+            Content = text
+        });
+
 
     public void Clear()
     {

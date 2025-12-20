@@ -1,8 +1,7 @@
-﻿namespace DotNet10Ai.Api.Models
-{
+﻿namespace DotNet10Ai.Api.Models;
 
-    public class ChatResponse
-    {
-        public string Reply { get; set; } = "";
-    }
+public sealed class ChatResponse
+{
+    public string Reply { get; set; } = string.Empty;
+    public string SessionId { get; set; } = string.Empty;
 }

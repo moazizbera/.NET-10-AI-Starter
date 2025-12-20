@@ -1,4 +1,5 @@
-﻿using DotNet10Ai.Api.Options;
+﻿using DotNet10Ai.Api.Models;
+using DotNet10Ai.Api.Options;
 using Microsoft.Extensions.Options;
 
 namespace DotNet10Ai.Api.Ai;
@@ -21,8 +22,9 @@ public sealed class AiServiceRouter : IAiInferenceService
 
     public string ProviderName => Selected().ProviderName;
 
-    public Task<string> ChatAsync(string message, CancellationToken ct)
-        => Selected().ChatAsync(message, ct);
+    public Task<string> ChatAsync(IReadOnlyList<ChatMessage> messages, CancellationToken ct)
+
+        => Selected().ChatAsync(messages, ct);
 
     private IAiInferenceService Selected()
     {

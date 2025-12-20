@@ -1,7 +1,11 @@
-﻿namespace DotNet10Ai.Api.Ai;
+﻿using DotNet10Ai.Api.Models;
+
+namespace DotNet10Ai.Api.Ai;
 
 public interface IAiInferenceService
 {
     string ProviderName { get; }
-    Task<string> ChatAsync(string message, CancellationToken ct);
+
+    // Episode 4: now works on full conversation history
+    Task<string> ChatAsync(IReadOnlyList<ChatMessage> messages, CancellationToken ct);
 }

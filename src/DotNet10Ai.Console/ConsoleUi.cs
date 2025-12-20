@@ -4,30 +4,30 @@ public static class ConsoleUi
 {
     public static void PrintBanner()
     {
-        Console.WriteLine("────────────────────────────────────────");
-        Console.WriteLine(" DotNet AI Chat");
-        Console.WriteLine(" Local • Ollama • Phi-3");
-        Console.WriteLine(" Type /help for commands");
-        Console.WriteLine("────────────────────────────────────────\n");
+        System.Console.WriteLine("────────────────────────────────────────");
+        System.Console.WriteLine(" DotNet AI Chat");
+        System.Console.WriteLine(" Local • Ollama • Phi-3");
+        System.Console.WriteLine(" Type /help for commands");
+        System.Console.WriteLine("────────────────────────────────────────\n");
     }
 
     public static void PrintUserPrompt()
     {
-        Console.Write("You > ");
+        System.Console.Write("You > ");
     }
 
     public static void PrintAiPrefix()
     {
-        Console.Write("AI  > ");
+        System.Console.Write("AI  > ");
     }
 
     public static void PrintSystem(string message)
     {
-        Console.WriteLine($"[system] {message}\n");
+        System.Console.WriteLine($"[system] {message}\n");
     }
 
     public static void PrintInfo(string message)
     {
-        Console.WriteLine($"{message}\n");
+        System.Console.WriteLine($"{message}\n");
     }
 }
