@@ -364,8 +364,9 @@ Episode 4 transforms the platform from stateless demo into **a real conversation
 - Task – Add system prompt templates https://github.com/moazizbera/.NET-10-AI-Starter/issues/13
 - Task – Refactor /api/chat to support stateful conversations https://github.com/moazizbera/.NET-10-AI-Starter/issues/14
 - Task – Document memory & prompt strategy in README https://github.com/moazizbera/.NET-10-AI-Starter/issues/15
-
-
+---
+Episode 4 – Conversation Memory
+Status: Completed
 
 ---
 
