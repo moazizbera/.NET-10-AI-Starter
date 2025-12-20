@@ -220,12 +220,161 @@ After Episode 3, the project now supports:
 
 ---
 
+# 📦 Episode 4 — Conversation Memory & Prompt Engine
+
+## 🎯 Objective
+Enable **stateful multi‑turn AI chat** that remembers previous user messages and context across requests — for both Console and Web API.
+
+This upgrades the system from simple Q&A to **real conversation intelligence**.
+
+---
+
+## 🧠 Why Episode 4 Matters
+
+Up to Episode 3, each chat request was isolated:
+
+- user sends message  
+- AI replies  
+- conversation forgotten
+
+Episode 4 enables:
+- Memory retention  
+- Multi‑message reasoning  
+- Coherent long‑running conversations  
+- AI that adapts to the user  
+
+This is how every real AI assistant works.
+
+---
+
+## 🔍 High‑Level Design
+
+### 🟢 Memory Type
+- In‑memory only  
+- Stored per session  
+- Lost when process restarts  
+- Trimmed when memory grows too large  
+
+### 🟢 Data Structure Example
+
+```csharp
+public class ConversationMemory
+{
+    public List<ChatMessage> Messages { get; }
+}
+```
+
+### 🟢 System Prompt Templates
+
+Episode 4 introduces:
+- a default system message
+- stored as the first memory entry
+
+> The prompt acts as the AI’s personality and instruction layer.
+
+---
+
+## 🔌 API Change Summary
+
+### Old format
+
+```json
+{ "prompt": "Hello" }
+```
+
+### New format
+
+```json
+{
+  "messages": [
+      {"role":"system", "content":"You are a .NET AI assistant."},
+      {"role":"user", "content":"Hello"},
+      {"role":"assistant", "content":"Hi there!"}
+  ]
+}
+```
+
+---
+
+## ⚙️ Web API Behavior
+
+- `/api/chat` now receives conversation memory
+- history is appended for each call
+- memory can be cleared
+
+### New endpoint
+
+`POST /api/chat/reset` → clears memory
+
+---
+
+## 🧰 Episode Tasks
+
+### 1️⃣ In‑Memory Storage
+Implement a shared list for message history.
+
+### 2️⃣ System Prompt Templates
+Store a permanent system instruction.
+
+### 3️⃣ Stateful API Chat
+Rewrite payload builder → use messages[]
+
+### 4️⃣ Documentation
+Add README + sample calls
+
+---
+
+## 🧪 Completion Criteria
+
+✔ AI remembers previous messages  
+✔ Console behaves statefully  
+✔ Web API returns context‑aware replies  
+✔ Reset works  
+✔ Documentation updated  
+
+---
+
+## 🚫 Out of Scope
+
+These features are intentionally excluded:
+
+- database persistence  
+- OpenAI provider switching  
+- multi‑user identity  
+- streaming output  
+- embeddings or vector search  
+
+They belong to future episodes.
+
+---
+
+## 📄 Summary
+
+Episode 4 transforms the platform from stateless demo into **a real conversational AI engine**, paving the way for:
+
+- Episode 5 streaming  
+- Episode 6 RAG  
+- Episode 7 UI chat
+
+---
+
+🧩 Sub-tasks (linked issues)
+- Task – Add session-based conversation tracking (https://github.com/moazizbera/.NET-10-AI-Starter/issues/11)
+- Task – Implement conversation memory (in-memory first) https://github.com/moazizbera/.NET-10-AI-Starter/issues/12
+- Task – Add system prompt templates https://github.com/moazizbera/.NET-10-AI-Starter/issues/13
+- Task – Refactor /api/chat to support stateful conversations https://github.com/moazizbera/.NET-10-AI-Starter/issues/14
+- Task – Document memory & prompt strategy in README https://github.com/moazizbera/.NET-10-AI-Starter/issues/15
+
+
+
+---
+
+## 📚 Coming Soon
+Episode 5 will add **streaming AI output using SSE**.
+
 ## 📚 Coming Next
 
 Planned upcoming episodes in this series:
-
-- **Episode 4** – Conversation Memory & Prompt Engine  
-- **Episode 5** – Streaming AI APIs (SSE)  
 - **Episode 6** – RAG (Chat with Documents)  
 - **Episode 7** – UI Integration  
 
